@@ -289,6 +289,9 @@ export async function sendToAdmin(
 
     const message = message1 + message2 + message3 + message4;
 
+    this.bot.custom.sendAcceptedOfferMessage(offer);
+    return;
+
     if (message.length > 5000) {
         // Maximum allowed characters now is 5000
         log.warn('Message more than 5000 character');

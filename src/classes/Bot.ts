@@ -47,6 +47,7 @@ import { EventEmitter } from 'events';
 import { Blocked } from './MyHandler/interfaces';
 import filterAxiosError from '@tf2autobot/filter-axios-error';
 import { axiosAbortSignal } from '../lib/helpers';
+import Custom from 'src/custom';
 
 export interface SteamTokens {
     refreshToken: string;
@@ -54,6 +55,9 @@ export interface SteamTokens {
 }
 
 export default class Bot {
+    // Custom
+    readonly custom: Custom;
+
     // Modules and classes
     schema: SchemaManager.Schema;
 
@@ -177,6 +181,8 @@ export default class Bot {
     public periodicCheckAdmin: NodeJS.Timeout;
 
     constructor(public readonly botManager: BotManager, public options: Options, readonly priceSource: IPricer) {
+        this.custom = new Custom(this);
+
         this.botManager = botManager;
 
         this.client = new SteamUser();

@@ -7,7 +7,9 @@ import {
     DiscordAPIError,
     Snowflake,
     ActivityType,
-    ApplicationCommandType
+    ApplicationCommandType,
+    MessagePayload,
+    MessageCreateOptions
 } from 'discord.js';
 import log from '../lib/logger';
 import Options from './Options';
@@ -162,13 +164,13 @@ export default class DiscordBot {
         }
     }
 
-    private sendMessage(origMessage: Message, message: string): void {
-        if (message.startsWith('\n')) {
+    public sendMessage(origMessage: Message, message: string | MessagePayload | MessageCreateOptions): void {
+/*         if (message.startsWith('\n')) {
             message = '.' + message;
         }
         if (message.endsWith('\n')) {
             message = message + '.';
-        }
+        } */
 
         origMessage.channel
             .send(message)
