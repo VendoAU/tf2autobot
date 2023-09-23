@@ -47,7 +47,7 @@ import { EventEmitter } from 'events';
 import { Blocked } from './MyHandler/interfaces';
 import filterAxiosError from '@tf2autobot/filter-axios-error';
 import { axiosAbortSignal } from '../lib/helpers';
-import Custom from 'src/custom';
+import Custom from '../custom';
 
 export interface SteamTokens {
     refreshToken: string;
