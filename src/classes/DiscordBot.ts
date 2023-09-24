@@ -164,13 +164,13 @@ export default class DiscordBot {
         }
     }
 
-    public sendMessage(origMessage: Message, message: string | MessagePayload | MessageCreateOptions): void {
-/*         if (message.startsWith('\n')) {
+    private sendMessage(origMessage: Message, message: string): void {
+        if (message.startsWith('\n')) {
             message = '.' + message;
         }
         if (message.endsWith('\n')) {
             message = message + '.';
-        } */
+        }
 
         origMessage.channel
             .send(message)

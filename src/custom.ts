@@ -1,10 +1,11 @@
 import { EconItem, TradeOffer, UserDetails } from "@tf2autobot/tradeoffer-manager";
 import Bot from "./classes/Bot";
-import {ColorResolvable, EmbedBuilder} from 'discord.js'
+import {ColorResolvable, EmbedBuilder, Message, MessageCreateOptions, MessagePayload} from 'discord.js'
 import SteamID from "steamid";
 import Currencies from "@tf2autobot/tf2-currencies";
 import * as t from './lib/tools/export';
 import SKU from '@tf2autobot/tf2-sku';
+import log from "./lib/logger";
 
 export default class Custom {
 
@@ -42,8 +43,19 @@ export default class Custom {
             )
             // .setFooter({ text: `Stock: ${this.bot.tf2Manager.getPure().toString()}` });
 
+            this.bot.admins
+            .forEach(steamID => {
+                this.sendDiscordMessage(steamID.redirectAnswerTo, {embeds: [embed]});
+            });
+    }
 
-            this.bot.discordBot.sendMessage(offer.partner.redirectAnswerTo, {embeds: [embed]});
+    private sendDiscordMessage(origMessage: Message, message: string | MessagePayload | MessageCreateOptions) {
+        origMessage.channel
+        .send(message)
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        .then(() => log.info(`Message sent to ${origMessage.author.tag} (${origMessage.author.id}): ${message}`))
+        .catch(err => log.error('Failed to send message to Discord:', err));
     }
 }
 

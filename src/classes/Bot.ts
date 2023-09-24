@@ -145,7 +145,7 @@ export default class Bot {
 
     private loginAttempts: Dayjs[] = [];
 
-    private admins: SteamID[] = [];
+    public admins: SteamID[] = [];
 
     public blockedList: Blocked = {};
 
