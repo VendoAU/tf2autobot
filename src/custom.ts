@@ -72,7 +72,7 @@ export class OfferSummary {
     private getItemsString(items: EconItem[]): string {
         let amounts = new Map<string, number>();
         items.forEach(item => {
-            const sku = item.getSKU(this.bot.schema, true, true, true, true, new String[0]).sku;
+            const sku = item.getSKU(this.bot.schema, true, true, true, true, []).sku;
             if(amounts.get(sku) === undefined) {
                 amounts.set(sku, 1);
             } else {
