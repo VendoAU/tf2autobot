@@ -289,7 +289,7 @@ export async function sendToAdmin(
 
     const message = message1 + message2 + message3 + message4;
 
-    this.bot.custom.sendAcceptedOfferMessage(offer);
+    bot.custom.sendAcceptedOfferMessage(offer);
     return;
 
     if (message.length > 5000) {
