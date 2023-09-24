@@ -45,28 +45,15 @@ export default class Custom {
 
             this.bot.admins
             .forEach(steamID => {
-                this.sendMessage(steamID, {embeds: [embed]});
+                this.sendDiscordMessage({embeds: [embed]});
             });
     }
 
-    private sendMessage(steamID: SteamID, message: string | MessagePayload | MessageCreateOptions) {
-        if (steamID instanceof SteamID && steamID.redirectAnswerTo) {
-            const origMessage = steamID.redirectAnswerTo;
-            if (origMessage instanceof DiscordMessage) {
-                this.sendDiscordMessage(origMessage, message);
-            } else {
-                log.error(`Failed to send message, broken redirect:`, origMessage);
-            }
-            return;
-        }
-    }
-
-    private sendDiscordMessage(origMessage: Message, message: string | MessagePayload | MessageCreateOptions) {
-        origMessage.channel
+    private sendDiscordMessage(message: string | MessagePayload | MessageCreateOptions) {
+        const channel = this.bot.discordBot.client.channels[0];
+        channel
         .send(message)
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        .then(() => log.info(`Message sent to ${origMessage.author.tag} (${origMessage.author.id}): ${message}`))
+        .then(() => log.info(`Message sent to discord: ${message}`))
         .catch(err => log.error('Failed to send message to Discord:', err));
     }
 }
