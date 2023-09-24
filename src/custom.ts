@@ -1,6 +1,6 @@
 import { EconItem, TradeOffer, UserDetails } from "@tf2autobot/tradeoffer-manager";
 import Bot from "./classes/Bot";
-import {ColorResolvable, EmbedBuilder, Message, MessageCreateOptions, MessagePayload} from 'discord.js'
+import {ColorResolvable, EmbedBuilder, Message, MessageCreateOptions, MessagePayload, Message as DiscordMessage} from 'discord.js'
 import SteamID from "steamid";
 import Currencies from "@tf2autobot/tf2-currencies";
 import * as t from './lib/tools/export';
@@ -45,8 +45,20 @@ export default class Custom {
 
             this.bot.admins
             .forEach(steamID => {
-                this.sendDiscordMessage(steamID.redirectAnswerTo, {embeds: [embed]});
+                this.sendMessage(steamID, {embeds: [embed]});
             });
+    }
+
+    private sendMessage(steamID: SteamID, message: string | MessagePayload | MessageCreateOptions) {
+        if (steamID instanceof SteamID && steamID.redirectAnswerTo) {
+            const origMessage = steamID.redirectAnswerTo;
+            if (origMessage instanceof DiscordMessage) {
+                this.sendDiscordMessage(origMessage, message);
+            } else {
+                log.error(`Failed to send message, broken redirect:`, origMessage);
+            }
+            return;
+        }
     }
 
     private sendDiscordMessage(origMessage: Message, message: string | MessagePayload | MessageCreateOptions) {
